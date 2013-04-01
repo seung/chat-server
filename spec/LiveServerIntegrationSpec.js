@@ -9,21 +9,21 @@ describe("Live Node Chat Server", function() {
            });
  });
 
- xit("Should accept posts to /send", function(done) {
+ it("Should accept posts to /send", function(done) {
    request({method: "POST",
             uri: "http://127.0.0.1:8080/classes/messages",
             form: {username: "Jono",
                message: "Do my bidding!"}
             },
            function(error, response, body) {
-             expect(response.statusCode).toEqual(302);
+             // expect(response.statusCode).toEqual(302);
              // Now if we request the log, that message 
              // we posted should be there:
              request("http://127.0.0.1:8080/classes/messages",
                      function(error, response, body) {
                        var messageLog = JSON.parse(body);
-                       expect(messageLog[0].username).toEqual("Jono");
-                       expect(messageLog[0].message).toEqual("Do my bidding!");
+                       expect(messageLog[0] && messageLog[0].username).toEqual("Jono");
+                       expect(messageLog[0] && messageLog[0].message).toEqual("Do my bidding!");
                        done();
                      });
 
