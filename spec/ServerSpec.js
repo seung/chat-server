@@ -11,8 +11,7 @@ function StubRequest(url, method, postdata) {
   this.addListener = this.on = function(type, callback) {
     if (type == "data") {
       // turn postdata (dictionary object) into raw postdata
-      // raw postdata looks like this:
-      // username=jono&message=do+my+bidding
+      // like: username=jono&message=do+my+bidding
       var fields = [];
       for (var key in self._postData) {
         fields.push(key + "=" + self._postData[key].replace(" ", "+"));
@@ -32,7 +31,7 @@ function StubResponse() {
   this._data = null;
   var self = this;
   this.writeHead = function(responseCode, headers) {
-    console.log("WriteHead called with " + responseCode);
+    console.log("\n\nWriteHead called with " + responseCode);
     self._responseCode = responseCode;
     self._headers = headers;
   };
@@ -50,7 +49,7 @@ describe("Node Server Request Listener Function", function() {
    var res = new StubResponse();
 
    handler.handleRequest(req, res);
-
+      console.log('\n\n\nhandle Request called with ' + JSON.stringify(req));
    expect(res._responseCode).toEqual(200);
    expect(res._data).toEqual("[]");
    expect(res._ended).toEqual(true);
