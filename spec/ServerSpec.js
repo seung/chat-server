@@ -61,8 +61,12 @@ describe("Node Server Request Listener Function", function() {
                              "POST",
                             {username: "Jono",
                              message: "Do my bidding!"});
+    // StubRequest {url: "http://127.0.0.1:8080/classes/room1", 
+    // method: "GET", _postData: undefined, setEncoding: function, 
+    // on: function…}
    var res = new StubResponse();
-
+      // res-> StubResponse {_ended: false, _responseCode: null,
+      // _headers: null, _data: null, writeHead: function…}
    handler.handleRequest(req, res);
 
    expect(res._responseCode).toEqual(302);
