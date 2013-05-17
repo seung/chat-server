@@ -38,5 +38,4 @@ describe("Live Node Chat Server", function() {
            });
  });
 
-
 });

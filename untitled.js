@@ -1,1 +1,0 @@
-_.each([1,2,3], function(item, index, coll){ console.log(item); })
