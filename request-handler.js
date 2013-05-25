@@ -1,5 +1,5 @@
 var url = require('url'),
-   http = require('http');
+   http = require('http'),
    data = [], 
    rooms = [],
    keepMessageCount = 20;
@@ -22,10 +22,10 @@ var handleRequest = function(request, response) {
   console.log("Serving request type " + request.method + " for url " + request.url);
   console.log('request.method: ' + request.method);
 
-  var headers = defaultCorsHeaders;
+  var headers = defaultCorsHeaders,
+         path = url.parse(request.url).pathname.split('/'),
+   statusCode = 200;
   headers['Content-Type'] = "application/json";
-  var statusCode = 200;
-  var path = url.parse(request.url).pathname.split('/');
 
   if(request.method === 'POST') {
     var postData = '';
@@ -45,7 +45,6 @@ var handleRequest = function(request, response) {
         postData['roomname']=roomID;
       };
       addMessage(roomID, postData);
-      console.log('45 data : '+JSON.stringify(data))
     });
 
   } else {
@@ -63,9 +62,8 @@ var addMessage = function(roomID, postData) {
   (rooms.indexOf(roomID) === -1) ? addRoom(roomID, postData)
                                  : data[rooms.indexOf(roomID)][roomID].unshift(postData)
 
-  if (data[rooms.indexOf(roomID)][roomID].length > keepMessageCount) {
-    data[rooms.indexOf(roomID)][roomID].pop();
-  } 
+  (data[rooms.indexOf(roomID)][roomID].length > keepMessageCount) 
+    && data[rooms.indexOf(roomID)][roomID].pop();
 };
 
 exports.handleRequest = handleRequest;
